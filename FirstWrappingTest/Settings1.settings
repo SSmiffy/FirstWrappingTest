@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="FirstWrappingTest" GeneratedClassName="Settings1">
+  <Profiles />
+  <Settings>
+    <Setting Name="Path" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Users\SSmith\Desktop\Sandbox</Value>
+    </Setting>
+    <Setting Name="SIP_SERVER_IP" Type="System.String" Scope="User">
+      <Value Profile="(Default)">144.190.43.23</Value>
+    </Setting>
+    <Setting Name="PTT_ID" Type="System.String" Scope="User">
+      <Value Profile="(Default)">12507</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
