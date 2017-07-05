@@ -50,9 +50,12 @@ namespace W7KWrapper
 		{
 			this->managedDelegate = gcnew ManagedCallBack(this, &UATest1::callbacktes1);
 			this->unmanagedDelegatePtr = Marshal::GetFunctionPointerForDelegate(this->managedDelegate);
-
-
 			BAL->SetCallBack((BasicAgentListener::callbackfunc) unmanagedDelegatePtr.ToPointer());
+
+			this->managedInfoDelegate = gcnew ManagedInfoCallBack(this, &UATest1::InfoCallback);
+			this->unmanagedInfoDelegatePtr = Marshal::GetFunctionPointerForDelegate(this->managedInfoDelegate);
+			BAL->SetInfoCallBack((BasicAgentListener::InfoCallbackFunc) unmanagedInfoDelegatePtr.ToPointer());
+
 			regAgent = UA->getRegistrationAgent();
 			BAL->SetRegistrationAgentCallBack(regAgent);
 
@@ -70,9 +73,12 @@ namespace W7KWrapper
 			auto inf = UA->pushSettings(settings);
 
 			//auto ptrToken = (const char*)(void*)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(Configuration::ConfigurationManager::AppSettings["TOKEN"]);
+			auto returnedvalue = AccessTokenRequired();
+			UAInformation(BasicAgentListener::BasicAgentListenerState::Undefined, returnedvalue);
 
 			//regAgent->setAccessToken(ptrToken);
 			auto regInfo = regAgent->activateAndRegister();
+
 		}
 	}
 
@@ -88,6 +94,12 @@ namespace W7KWrapper
 	void UATest1::callbacktes1(int value)
 	{
 		System::Diagnostics::Debug::WriteLine("Well that's somthing");
+	}
+
+	void UATest1::InfoCallback(BasicAgentListener::BasicAgentListenerState UAState, String^ strinfo)
+	{
+		UAInformation(UAState, strinfo);
+		//System::Diagnostics::Debug::WriteLine("Well that's somthing");
 	}
 
 }

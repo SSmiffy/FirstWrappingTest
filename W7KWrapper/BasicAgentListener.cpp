@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <stdio.h>
 #include "BasicAgentListener.h"
 using namespace System;
 using namespace std;
@@ -17,14 +18,23 @@ BasicAgentListener::~BasicAgentListener()
 
 void BasicAgentListener::SetRegistrationAgentCallBack(RegistrationAgent * regAgent)
 {
+	InfoCallback(BasicAgentListenerState::Active, "Well now what");
 	this->regAgent = regAgent;
 }
 
 void BasicAgentListener::notifyRegistered(AccessMode accessMode)
 {
-	System::Diagnostics::Trace::WriteLine("BasicAgentListener::notifyRegistered(AccessMode accessMode)");
+	BasicAgentListenerState accessState = BasicAgentListenerState::Registered_FullService;
 
-	Console::WriteLine(L"On Client Registered"); // TODO: output accessMode
+	System::Diagnostics::Trace::WriteLine("BasicAgentListener::notifyRegistered(AccessMode accessMode)");
+	if (accessMode != AccessMode::FULL_SERVICE_ACCESS)
+	{
+		accessState = BasicAgentListenerState::Registered_LimitedService;
+	}
+	
+
+//	Console::WriteLine(L"On Client Registered"); // TODO: output accessMode
+	InfoCallback(accessState, "notifyRegistered");
 
 }
 
@@ -39,6 +49,9 @@ void BasicAgentListener::notifyActive(Info & reason)
 	System::Diagnostics::Trace::WriteLine("BasicAgentListener::notifyActive(Info & reason)");
 
 	//cout << "On Client Active " << reason.getMessage() << " , " << reason.getErrorCode() << endl;
+	char str[100];
+	sprintf_s(str, "Active results [%d] %s", reason.getErrorCode(), reason.getMessage());
+	InfoCallback(BasicAgentListenerState::Active, str);
 }
 
 void BasicAgentListener::notifyDeactivated(Info & reason)
@@ -46,11 +59,15 @@ void BasicAgentListener::notifyDeactivated(Info & reason)
 	System::Diagnostics::Trace::WriteLine("BasicAgentListener::notifyDeactivated(Info & reason)");
 
 	//cout << "On Client Deactivated " << reason.getMessage() << " , " << reason.getErrorCode() << endl;
+	char str[100];
+	sprintf_s(str, "Deactivated results [%d] %s", reason.getErrorCode(), reason.getMessage());
+	InfoCallback(BasicAgentListenerState::Deactivated, str);
 }
 
 void BasicAgentListener::notifyUpdateSettings(const Settings & config)
 {
 	System::Diagnostics::Trace::WriteLine("BasicAgentListener::notifyUpdateSettings(const Settings & config)");
+	InfoCallback(BasicAgentListenerState::Undefined, "notifyUpdateSettings");
 
 }
 
@@ -86,11 +103,19 @@ void BasicAgentListener::notifyCertificatePassphraseRequired()
 void BasicAgentListener::notifyEvent(int event, Info & info)
 {
 	System::Diagnostics::Trace::WriteLine("BasicAgentListener::notifyEvent(int event, Info & info)");
+
+	char str[100];
+	sprintf_s(str, "notifyEvents [%d] [%d] %s", event, info.getErrorCode(),info.getMessage());
+	InfoCallback(BasicAgentListenerState::Event, str);
 }
 
 void BasicAgentListener::notifyEvent(int event)
 {
 	System::Diagnostics::Trace::WriteLine("BasicAgentListener::notifyEvent(int event)");
+
+	char str[100];
+	sprintf_s(str, "notifyEvents [%d]", event);
+	InfoCallback(BasicAgentListenerState::Event, str);
 }
 
 void BasicAgentListener::intitialise()
@@ -103,4 +128,10 @@ void BasicAgentListener::SetCallBack(callbackfunc func)
 {
 	mainCallback = func;
 }
+
+void BasicAgentListener::SetInfoCallBack(InfoCallbackFunc func)
+{
+	InfoCallback = func;
+}
+
 

@@ -28,14 +28,24 @@ namespace W7KWrapper {
 
 		void intitialise();
 
-		typedef void (*callbackfunc)(int);
+		enum BasicAgentListenerState
+		{
+			Undefined,
+			Active,
+			Registered_FullService,
+			Registered_LimitedService,
+			Event,
+			Deactivated
+		};
+
+		typedef void(*callbackfunc)(int);
+		typedef void (*InfoCallbackFunc)(BasicAgentListenerState state, char * info);
 
 		callbackfunc mainCallback;
+		InfoCallbackFunc InfoCallback;
 		//void(*mainCallback)(int);
 
 		void SetRegistrationAgentCallBack(RegistrationAgent* regAgent);
-
-
 
 		// Registration
 		virtual void notifyRegistered(AccessMode accessMode);
@@ -58,6 +68,7 @@ namespace W7KWrapper {
 
 		//void SetCallBack(void(*func)(int));
 		void SetCallBack(callbackfunc func);
+		void SetInfoCallBack(InfoCallbackFunc func);
 
 	};
 }

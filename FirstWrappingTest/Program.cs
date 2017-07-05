@@ -20,6 +20,8 @@ namespace FirstWrappingTest
 
             try
             {
+                UA.AccessTokenRequired += UA_token;
+                UA.UAInformation += UA_UAInformation; ;
                 UA.Initialise(Settings1.Default.Path);
                 //UA.initialise();
             }
@@ -34,6 +36,16 @@ namespace FirstWrappingTest
             Console.ReadLine();
 
             //UA.DestroyUAInstance();
+        }
+
+        private static void UA_UAInformation(BasicAgentListener.BasicAgentListenerState UAState, string info)
+        {
+            Console.WriteLine($"** string info -> {info}");
+        }
+
+        private static string UA_token()
+        {
+            return Settings1.Default.LoginToken;
         }
 
         private static void PopulateSettings(UATest1 ua)
