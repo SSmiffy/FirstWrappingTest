@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include <stdio.h>
+#include <WinSock2.h>
 #include "BasicAgentListener.h"
 using namespace System;
 using namespace std;
@@ -14,6 +15,14 @@ BasicAgentListener::BasicAgentListener()
 
 BasicAgentListener::~BasicAgentListener()
 {
+}
+
+int BasicAgentListener::initialise()
+{
+	WSADATA wsaData;
+	int wsa_err = WSAStartup(MAKEWORD(2, 2), &wsaData);
+	return wsa_err;
+
 }
 
 void BasicAgentListener::SetRegistrationAgentCallBack(RegistrationAgent * regAgent)

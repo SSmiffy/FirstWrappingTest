@@ -49,6 +49,12 @@ namespace W7KWrapper
 			return;
 		}
 */
+		auto initRes = BAL->initialise();
+
+		if (initRes != 0)
+		{
+			return;
+		}
 
 		auto path = (const char*)(void*)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(dataPath);
 		UA = UserAgentFactory::createInstance(path);

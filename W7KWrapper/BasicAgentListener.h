@@ -45,6 +45,8 @@ namespace W7KWrapper {
 		InfoCallbackFunc InfoCallback;
 		//void(*mainCallback)(int);
 
+		int initialise();
+
 		void SetRegistrationAgentCallBack(RegistrationAgent* regAgent);
 
 		// Registration

@@ -93,7 +93,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>W7K_UA_SDK.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>W7K_UA_SDK.lib;WS2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
