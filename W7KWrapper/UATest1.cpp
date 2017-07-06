@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "UATest1.h"
+//#include <WinSock2.h>
 
 using namespace System::Runtime::InteropServices;
 
@@ -39,6 +40,16 @@ namespace W7KWrapper
 
 	void UATest1::Initialise(String^ dataPath )
 	{
+
+	/*	WSADATA wsaData;
+		int wsa_err = WSAStartup(MAKEWORD(2, 2), &wsaData);
+		if (wsa_err != 0)
+		{
+			UAInformation(BasicAgentListener::BasicAgentListenerState::Undefined, "WSAStartup Failed");
+			return;
+		}
+*/
+
 		auto path = (const char*)(void*)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(dataPath);
 		UA = UserAgentFactory::createInstance(path);
 
@@ -48,9 +59,9 @@ namespace W7KWrapper
 
 		if (UA != nullptr)
 		{
-			this->managedDelegate = gcnew ManagedCallBack(this, &UATest1::callbacktes1);
-			this->unmanagedDelegatePtr = Marshal::GetFunctionPointerForDelegate(this->managedDelegate);
-			BAL->SetCallBack((BasicAgentListener::callbackfunc) unmanagedDelegatePtr.ToPointer());
+			this->managedTokenDelegate = gcnew ManagedAccessTokenCallBack(this, &UATest1::TokenCallBack);
+			this->unmanagedTokenDelegatePtr = Marshal::GetFunctionPointerForDelegate(this->managedTokenDelegate);
+			BAL->SetTokenCallBack((BasicAgentListener::TokenCallbackFunc) unmanagedTokenDelegatePtr.ToPointer());
 
 			this->managedInfoDelegate = gcnew ManagedInfoCallBack(this, &UATest1::InfoCallback);
 			this->unmanagedInfoDelegatePtr = Marshal::GetFunctionPointerForDelegate(this->managedInfoDelegate);
@@ -73,8 +84,6 @@ namespace W7KWrapper
 			auto inf = UA->pushSettings(settings);
 
 			//auto ptrToken = (const char*)(void*)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(Configuration::ConfigurationManager::AppSettings["TOKEN"]);
-			auto returnedvalue = AccessTokenRequired();
-			UAInformation(BasicAgentListener::BasicAgentListenerState::Undefined, returnedvalue);
 
 			//regAgent->setAccessToken(ptrToken);
 			auto regInfo = regAgent->activateAndRegister();
@@ -91,9 +100,11 @@ namespace W7KWrapper
 		}
 	}
 
-	void UATest1::callbacktes1(int value)
+	String^ UATest1::TokenCallBack()
 	{
-		System::Diagnostics::Debug::WriteLine("Well that's somthing");
+		auto returnedToken = AccessTokenRequired();
+		UAInformation(BasicAgentListener::BasicAgentListenerState::Undefined, returnedToken);
+		return returnedToken;
 	}
 
 	void UATest1::InfoCallback(BasicAgentListener::BasicAgentListenerState UAState, String^ strinfo)

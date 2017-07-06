@@ -38,10 +38,10 @@ namespace W7KWrapper {
 			Deactivated
 		};
 
-		typedef void(*callbackfunc)(int);
+		typedef char* (*TokenCallbackFunc)(void);
 		typedef void (*InfoCallbackFunc)(BasicAgentListenerState state, char * info);
 
-		callbackfunc mainCallback;
+		TokenCallbackFunc TokenCallback;
 		InfoCallbackFunc InfoCallback;
 		//void(*mainCallback)(int);
 
@@ -67,7 +67,7 @@ namespace W7KWrapper {
 		virtual void notifyLog(Settings::LogLevel level, const char* eventLog);
 
 		//void SetCallBack(void(*func)(int));
-		void SetCallBack(callbackfunc func);
+		void SetTokenCallBack(TokenCallbackFunc func);
 		void SetInfoCallBack(InfoCallbackFunc func);
 
 	};

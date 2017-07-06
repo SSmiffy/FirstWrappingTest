@@ -57,7 +57,7 @@ namespace W7KWrapper {
 	public ref class UATest1
 	{
 
-		delegate void ManagedCallBack(int value);
+		delegate String^ ManagedAccessTokenCallBack(void);
 		delegate void ManagedInfoCallBack(BasicAgentListener::BasicAgentListenerState UAState, String^ value);
 
 	public:
@@ -96,15 +96,15 @@ namespace W7KWrapper {
 		delegate void BALCallBack(int value);
 
 		void ThisOne(int number);
-		void callbacktes1(int value);
+		String^ TokenCallBack();
 		void InfoCallback(BasicAgentListener::BasicAgentListenerState UAState, String^ string);
 
 		//static BasicAgentListener::callbackfunc callbacktes1;
 		//typedef void(*callbackfunc)(int);
 		//static callbackfunc callbacktes1;
 	private:
-		ManagedCallBack^ managedDelegate;
-		IntPtr unmanagedDelegatePtr;
+		ManagedAccessTokenCallBack^ managedTokenDelegate;
+		IntPtr unmanagedTokenDelegatePtr;
 
 		ManagedInfoCallBack^ managedInfoDelegate;
 		IntPtr unmanagedInfoDelegatePtr;

@@ -90,7 +90,14 @@ void BasicAgentListener::notifyAccessTokenRequired()
 	//auto ptrToken = (const char*)(void*)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(Configuration::ConfigurationManager::AppSettings["TOKEN"]);
 	//TODO: add the token back in
 	//this->regAgent->setAccessToken(ptrToken);
-	mainCallback(234);
+	InfoCallback(BasicAgentListenerState::Event, "BasicAgentListener::notifyAccessTokenRequired");
+	auto token = TokenCallback();
+
+	char str[1100];
+	sprintf_s(str, "Supplied Access token :%s", token);
+	InfoCallback(BasicAgentListenerState::Event, str);
+
+	this->regAgent->setAccessToken(token);
 }
 
 void BasicAgentListener::notifyCertificatePassphraseRequired()
@@ -124,9 +131,9 @@ void BasicAgentListener::intitialise()
 }
 
 //void BasicAgentListener::SetCallBack(void(*func)(int))
-void BasicAgentListener::SetCallBack(callbackfunc func)
+void BasicAgentListener::SetTokenCallBack(TokenCallbackFunc func)
 {
-	mainCallback = func;
+	TokenCallback = func;
 }
 
 void BasicAgentListener::SetInfoCallBack(InfoCallbackFunc func)
