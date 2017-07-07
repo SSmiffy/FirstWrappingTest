@@ -1,17 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using W7KWrapper;
 
+
 namespace FirstWrappingTest
 {
     class Program
     {
+        private static TextWriter logStream;
         static void Main(string[] args)
         {
+            logStream = new  StreamWriter(@"C:\Users\ssmith\Desktop\FileWrapper.txt") ;
+            logStream.WriteLine($"************** log file opened {System.DateTime.Now.ToLocalTime()} **************");
+            logStream.Flush();
             //var UA = new AUWrapper();
             //var AU = new AUWrapper();
             var UA = new UATest1();
@@ -36,10 +42,18 @@ namespace FirstWrappingTest
             Console.ReadLine();
 
             //UA.DestroyUAInstance();
+
+            logStream.Dispose();
         }
 
-        private static void UA_UAInformation(BasicAgentListener.BasicAgentListenerState UAState, string info)
+        private static void UA_UAInformation(BasicAgentListener.BasicAgentListenerState uaState, string info)
         {
+            logStream.WriteLine(info);
+            logStream.Flush();
+            //if (uaState == BasicAgentListener.BasicAgentListenerState .LOG_WARNING)
+            //{
+                
+            //}
             Console.WriteLine($"** string info -> {info}");
         }
 
