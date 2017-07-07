@@ -31,11 +31,16 @@ namespace W7KWrapper {
 		enum BasicAgentListenerState
 		{
 			Undefined,
+			LOG_NONE,
+			LOG_ERROR,
+			LOG_WARNING,
+			LOG_INFO,
+			LOG_VERBOSE,
 			Active,
 			Registered_FullService,
 			Registered_LimitedService,
 			Event,
-			Deactivated
+			Deactivated,
 		};
 
 		typedef char* (*TokenCallbackFunc)(void);

@@ -50,7 +50,33 @@ void BasicAgentListener::notifyRegistered(AccessMode accessMode)
 
 void BasicAgentListener::notifyLog(Settings::LogLevel level, const char* eventLog)
 {
-
+	char str[100];
+	auto charLen = snprintf(str, 100, "%s", eventLog);
+	if (charLen > 100)
+	{
+		strcpy(&str[100-4], "...");
+	}
+	switch (level)
+	{
+	case Settings::LogLevel::LOG_NONE:
+		InfoCallback(BasicAgentListenerState::LOG_NONE, str);
+		break;
+	case Settings::LogLevel::LOG_ERROR:
+		InfoCallback(BasicAgentListenerState::LOG_ERROR, str);
+		break;
+	case Settings::LogLevel::LOG_INFO:
+		InfoCallback(BasicAgentListenerState::LOG_INFO, str);
+		break;
+	case Settings::LogLevel::LOG_VERBOSE:
+		InfoCallback(BasicAgentListenerState::LOG_VERBOSE, str);
+		break;
+	case Settings::LogLevel::LOG_WARNING:
+		InfoCallback(BasicAgentListenerState::LOG_WARNING, str);
+		break;
+	default:
+		InfoCallback(BasicAgentListenerState::Undefined, str);
+		break;
+	}
 }
 
 void BasicAgentListener::notifyActive(Info & reason)
