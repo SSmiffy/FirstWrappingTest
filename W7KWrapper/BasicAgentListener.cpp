@@ -50,11 +50,11 @@ void BasicAgentListener::notifyRegistered(AccessMode accessMode)
 
 void BasicAgentListener::notifyLog(Settings::LogLevel level, const char* eventLog)
 {
-	char str[100];
-	auto charLen = snprintf(str, 100, "%s", eventLog);
-	if (charLen > 100)
+	char str[2048];
+	auto charLen = snprintf(str, 2048, "%s", eventLog);
+	if (charLen > 2048)
 	{
-		strcpy(&str[100-4], "...");
+		strcpy(&str[2048 -4], "...");
 	}
 	switch (level)
 	{

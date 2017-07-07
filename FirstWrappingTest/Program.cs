@@ -42,6 +42,18 @@ namespace FirstWrappingTest
             Console.ReadLine();
 
             //UA.DestroyUAInstance();
+            try
+            {
+                UA.Initialise(Settings1.Default.Path);
+                //UA.initialise();
+                UA.AccessTokenRequired += UA_token;
+                UA.UAInformation += UA_UAInformation; ;
+            }
+            catch (InvalidOperationException e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
 
             logStream.Dispose();
         }
