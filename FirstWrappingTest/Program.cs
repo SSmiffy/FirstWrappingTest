@@ -44,10 +44,10 @@ namespace FirstWrappingTest
             //UA.DestroyUAInstance();
             try
             {
-                UA.Initialise(Settings1.Default.Path);
+                UA.TearDown();
                 //UA.initialise();
-                UA.AccessTokenRequired += UA_token;
-                UA.UAInformation += UA_UAInformation; ;
+                UA.AccessTokenRequired -= UA_token;
+                UA.UAInformation -= UA_UAInformation; ;
             }
             catch (InvalidOperationException e)
             {

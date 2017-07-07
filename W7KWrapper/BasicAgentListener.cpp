@@ -112,6 +112,30 @@ void BasicAgentListener::notifyScanListArchiveRestored(const ScanListArchive::Al
 	//cout << "BasicAgentListener::notifyScanListArchiveRestored" << endl;
 }
 
+void BasicAgentListener::notifyUpdateGroupList(const ListEventData& data)
+{
+	// note we only get the delta to the list
+	// getGroupList to get a list
+	// IsFullList indicates if this is a full list and nit just a delta
+	InfoCallback(BasicAgentListenerState::Undefined, "notifyUpdateGroupList");
+
+	if (data.isFullList())
+	{
+		InfoCallback(BasicAgentListenerState::Undefined, "notifyUpdateGroupList ** List is FULL");
+	}
+
+	for (unsigned i = 0; i < data.size(); i++)
+	{
+		const Target *target = data.getTarget(i);
+		//Target::Type type = target->getType();
+		ListEventData::Op operation = data.getOp(i);
+		char str[100];
+		auto charLen = snprintf(str, 100, "T%n %n %s [%n]", i,(int)target->getType(),target->getAddress(),(int)operation);
+		InfoCallback(BasicAgentListenerState::Undefined, str);
+	}
+
+}
+
 bool BasicAgentListener::isConnectionTrusted(const char * authenticationMethod, const X509CertificateList & certificateList)
 {
 	System::Diagnostics::Trace::WriteLine("BasicAgentListener::isConnectionTrusted(const char * authenticationMethod, const X509CertificateList & certificateList)");

@@ -49,6 +49,20 @@ namespace W7KWrapper {
 			LOG_DEST = Settings::LOG_DEST,
 			MAX_CALLS = Settings::MAX_CALLS,
 			SIGNIN_MODE = Settings::SIGNIN_MODE };
+
+		enum class UserAgentState {
+			Undefined,
+			LOG_NONE,
+			LOG_ERROR,
+			LOG_WARNING,
+			LOG_INFO,
+			LOG_VERBOSE,
+			Active,
+			Registered_FullService,
+			Registered_LimitedService,
+			Event,
+			Deactivated,
+		};
 	};
 
 	/// <summary>
@@ -95,9 +109,13 @@ namespace W7KWrapper {
 
 		delegate void BALCallBack(int value);
 
-		void ThisOne(int number);
 		String^ TokenCallBack();
 		void InfoCallback(BasicAgentListener::BasicAgentListenerState UAState, String^ string);
+
+		void AddTalkgroupToMonitor(String^ tg);
+
+
+		void TearDown();
 
 		//static BasicAgentListener::callbackfunc callbacktes1;
 		//typedef void(*callbackfunc)(int);

@@ -65,6 +65,7 @@ namespace W7KWrapper {
 		virtual void notifyCertificatePassphraseRequired();
 		virtual void notifyAccessTokenRequired();
 		virtual void notifyScanListArchiveRestored(const ScanListArchive::AliasList & list);
+		virtual void notifyUpdateGroupList(const ListEventData& data);
 
 
 

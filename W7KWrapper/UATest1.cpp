@@ -8,6 +8,9 @@ namespace W7KWrapper
 {
 	UATest1::UATest1()
 	{
+		this->regAgent = nullptr;
+		this->UA = nullptr;
+
 		this->BAL = new BasicAgentListener();
 		_setting = gcnew Generic::Dictionary<int, String^>();
 	}
@@ -15,11 +18,6 @@ namespace W7KWrapper
 
 	UATest1::~UATest1()
 	{
-	}
-
-	void UATest1::ThisOne(int number)
-	{
-
 	}
 
 	void UATest1::AddSetting(int key, String^ value)
@@ -97,6 +95,28 @@ namespace W7KWrapper
 		}
 	}
 
+	void UATest1::TearDown()
+	{
+		if (this->regAgent != nullptr)
+		{
+			auto tearDownres = regAgent->deregisterAndDeactivate();
+		}
+
+		if (this->UA != nullptr)
+		{
+			UserAgentFactory::destroyInstance(UA);
+		}
+	}
+
+	void UATest1::AddTalkgroupToMonitor(String^ tg)
+	{
+		// get current scan list and add the new one.
+		auto sl = ScanList();
+
+		auto info = scanAgent->selectScanList(sl);
+
+	}
+
 	void UATest1::FillSettings(Settings settings)
 	{
 		for each (auto var in _setting)
@@ -119,4 +139,6 @@ namespace W7KWrapper
 		//System::Diagnostics::Debug::WriteLine("Well that's somthing");
 	}
 
+
 }
+
