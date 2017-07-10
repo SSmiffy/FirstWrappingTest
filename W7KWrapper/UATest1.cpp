@@ -113,6 +113,17 @@ namespace W7KWrapper
 		// get current scan list and add the new one.
 		auto sl = ScanList();
 
+		ScanListArchive* sla = scanAgent->getScanListArchive();
+		ScanListArchive::AliasList list = sla->getAliasList();
+		for (int i = 0; i < list.size(); i++)
+		{
+			const char* name = list.get(i);
+			String^ TGAlias = gcnew String(name);
+			UAInformation(BasicAgentListener::BasicAgentListenerState::Undefined,TGAlias);
+			// Add the alias to a list that the user will see in some UI.
+			//addToUIList(list.get(i));
+		}
+
 		auto info = scanAgent->selectScanList(sl);
 
 	}

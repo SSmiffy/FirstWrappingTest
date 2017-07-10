@@ -30,6 +30,13 @@ namespace FirstWrappingTest
                 UA.UAInformation += UA_UAInformation; ;
                 UA.Initialise(Settings1.Default.Path);
                 //UA.initialise();
+
+                //var groupsToScan = new List<string>();
+                //groupsToScan.Add("grpnice01");
+                //groupsToScan.Add("grpnice02");
+                //UA.SetupScanList(groupsToScan);
+
+                UA.AddTalkgroupToMonitor("grpnice01");
             }
             catch (InvalidOperationException e)
             {
